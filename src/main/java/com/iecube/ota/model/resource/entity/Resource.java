@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class Resource extends BaseEntity {
-    Integer id;
+    Long id;
     String name;
     String filename;
     String originFilename;

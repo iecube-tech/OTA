@@ -60,7 +60,7 @@ public class ResourceServiceImpl implements ResourceService {
         return resource;
     }
 
-    private Resource addResource(Resource resource, Integer createUser) {
+    private Resource addResource(Resource resource, Long createUser) {
         resource.setCreator(createUser);
         resource.setCreateTime(new Date());
         resource.setLastModifiedUser(createUser);
@@ -119,24 +119,8 @@ public class ResourceServiceImpl implements ResourceService {
         return fileName;
     }
 
-
     @Override
-    public Resource UploadReadOverPDF(MultipartFile file,String originalFilename, Integer creator) throws  IOException{
-        if (file.isEmpty()){
-            throw new FileEmptyException("文件为空");
-        }
-        if (file.getSize()>FILE_MAX_SIZE){
-            throw new FileSizeException("文件大小超出限制");
-        }
-        String type = file.getContentType();
-        String fileName = this.SaveBlobFile(file);
-        Resource resource = this.buildResourceDTO(originalFilename, fileName, type);
-        Resource result = this.addResource(resource,creator);
-        return result;
-    }
-
-    @Override
-    public Resource UploadImage(MultipartFile file, Integer creator) throws IOException{
+    public Resource UploadImage(MultipartFile file, Long creator) throws IOException{
 //        System.out.println(file);
         if(file==null){
             throw new FileEmptyException("文件为空");
@@ -161,7 +145,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Resource UploadFile(MultipartFile file, Integer creator) throws IOException{
+    public Resource UploadFile(MultipartFile file, Long creator) throws IOException{
         if (file.isEmpty()){
             throw new FileEmptyException("文件为空");
         }
@@ -184,7 +168,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public void deleteById(Integer id){
+    public void deleteById(Long id){
         Resource resource = resourceMapper.getById(id);
         this.deleteResource(resource);
     }

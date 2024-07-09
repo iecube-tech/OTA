@@ -7,12 +7,12 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ResourceMapper {
     Integer insert(Resource resource);
 
-    Integer delete(Integer id);
+    Integer delete(Long id);
 
     Resource getByName(String name);
 
     Resource getByFileName(String filename);
 
-    Resource getById(Integer id);
+    Resource getById(Long id);
 
 }

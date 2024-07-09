@@ -38,14 +38,14 @@ public class ResourceController extends BaseController {
      */
     @PostMapping("/upimage")
     public JsonResult<Resource> UploadImage(MultipartFile file) throws IOException{
-        Integer creator = 0;
+        long creator = 0;
         Resource resource = resourceService.UploadImage(file,creator);
         return new JsonResult<>(OK, resource);
     }
 
     @PostMapping ("/e/image")
     public JsonResult<WangEditorRes> EditorUploadImage(MultipartFile file) throws IOException{
-        Integer creator = 0;
+        long creator = 0;
         Resource resource = resourceService.UploadImage(file,creator);
         WangEditorRes wangEditorRes = new WangEditorRes();
         wangEditorRes.setUrl("/files/image/"+resource.getFilename());
@@ -57,7 +57,7 @@ public class ResourceController extends BaseController {
 
     @PostMapping("/upfile")
     public JsonResult<Resource> UploadFile(MultipartFile file) throws IOException{
-        Integer creator = 0;
+        long creator = 0;
         Resource resource = resourceService.UploadFile(file,creator);
         return new JsonResult<>(OK, resource);
     }

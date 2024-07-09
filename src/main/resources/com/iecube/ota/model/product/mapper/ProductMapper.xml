@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iecube.ota.model.product.mapper.ProductMapper">
+    <resultMap id="PNode" type="com.iecube.ota.model.product.entity.PNode">
+    </resultMap>
+
+    <insert id="insertNode" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO product_tree (id, p_id, name, type) VALUES (NULL, #{pId}, #{name},#{type})
+    </insert>
+
+    <update id="updateNode">
+        UPDATE product_tree SET p_id=#{pId},
+                                name=#{name}
+                            WHERE id=#{id}
+    </update>
+
+    <delete id="delNode">
+        DELETE FROM product_tree WHERE id=#{id}
+    </delete>
+    
+    <delete id="batchDelNode" parameterType="java.util.List">
+        DELETE FROM product_tree
+               WHERE
+                 <foreach collection="list" separator="or" item="item" index="index">
+                    id=#{item.id}
+                 </foreach>
+    </delete>
+
+    <select id="allNode" resultMap="PNode">
+        SELECT * FROM product_tree
+    </select>
+
+    <select id="pNodeById" resultMap="PNode">
+        SELECT * FROM product_tree WHERE id=#{id}
+    </select>
+
+    <select id="pNodeByPId" resultMap="PNode">
+        SELECT * FROM product_tree WHERE p_id=#{pId}
+    </select>
+
+</mapper>
