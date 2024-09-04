@@ -104,7 +104,6 @@ public class ResourceServiceImpl implements ResourceService {
         resource.setFilename(fileName);
         resource.setSize(target.length());
         resource.setMd5(md5);
-        resource.setLink(domainName+"/files/"+fileName);
         return resource;
     }
 
@@ -153,6 +152,7 @@ public class ResourceServiceImpl implements ResourceService {
         resource.setOriginFilename(originalFilename);
         resource.setType(imageType);
         resource.setName(resource.getFilename()+originalFilename);
+        resource.setLink(domainName+"/files/image/"+resource.getFilename());
         Resource result = this.addResource(resource, creator);
 //        System.out.println(result);
         return result;
@@ -168,10 +168,11 @@ public class ResourceServiceImpl implements ResourceService {
         }
         String type = file.getContentType();
         String originalFilename = file.getOriginalFilename();
-        Resource resource = this.SaveFile(file, "image");
+        Resource resource = this.SaveFile(file, "file");
         resource.setType(type);
         resource.setOriginFilename(originalFilename);
         resource.setName(resource.getFilename()+originalFilename);
+        resource.setLink(domainName+"/files/file/"+resource.getFilename());
         Resource result = this.addResource(resource,creator);
         return result;
     }
