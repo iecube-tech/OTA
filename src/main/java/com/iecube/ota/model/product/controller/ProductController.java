@@ -41,6 +41,7 @@ public class ProductController extends BaseController {
 
     @PostMapping("/up")
     public JsonResult<PNode> updateProductNode(@RequestBody NodeQo nodeQo){
+        System.out.println(nodeQo);
         PNode pNode = new PNode();
         pNode.setId(nodeQo.getId());
         pNode.setPId(nodeQo.getPId());
@@ -50,9 +51,13 @@ public class ProductController extends BaseController {
         return new JsonResult<>(OK, res);
     }
 
-    @DeleteMapping("/del")
-    public JsonResult<PNode> delProductNode(Long id){
-        productService.delNode(id);
+    @PostMapping("/del")
+    public JsonResult<PNode> delProductNode(@RequestBody NodeQo nodeQo){
+        if(nodeQo.getId()==null){
+            return new JsonResult<>(OK);
+        }
+        System.out.println(nodeQo);
+        productService.delNode(nodeQo.getId());
         PNode res = productService.getAllProduct();
         return new JsonResult<>(OK, res);
     }

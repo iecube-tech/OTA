@@ -24,11 +24,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public void insertPNode(PNode pNode){
-        PNode parentNode = productMapper.pNodeByPId(pNode.getPId());
+        PNode parentNode = productMapper.pNodeById(pNode.getPId());
         if(parentNode==null){
             throw new InsertException("异常添加操作");
         }
-        if(parentNode.getType().equals(0)){
+        if(parentNode.getType()==0){
             throw new InsertException("叶子节点无法添加子节点");
         }
         int res = productMapper.insertNode(pNode);
@@ -50,15 +50,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void delNode(long id) {
         PNode pNode = productMapper.pNodeById(id);
-        if(pNode.getPId().equals(0)){
+        System.out.println(pNode);
+        if(pNode.getPId()==0){
             throw new DeleteException("根节点无法删除");
         }
-        if(pNode.getType().equals(0)){
+        if(pNode.getType()==0){
             this.delPNode(pNode);
         }
-        if(pNode.getType().equals(1)){
+        if(pNode.getType()==1){
             PNode tree = this.getPNodeTree(pNode.getId());
             List<PNode> pNodeList = this.getAllNodes(tree);
+            System.out.println("cnlmllllllggggg");
+            System.out.println(pNodeList);
             this.batchDelPNode(pNodeList);
         }
 
@@ -103,7 +106,7 @@ public class ProductServiceImpl implements ProductService {
         // 在所有的节点中判断其pId与当前的pNode的id是不是相同 相同就是他的子节点
         for(PNode node: allNodeList){
             if(node.getPId()!=null){
-                if(node.getPId().equals(parentNode.getId())){
+                if(node.getPId()==parentNode.getId()){
                     // 递归实现
                     childTree.add(getChildTree(node));
                 }
@@ -150,6 +153,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public int batchDelPNode(@Param("list")  List<PNode> pNodeList){
+        System.out.println(pNodeList);
         int res = productMapper.batchDelNode(pNodeList);
         return res;
     }

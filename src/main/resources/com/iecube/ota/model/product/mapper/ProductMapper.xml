@@ -8,7 +8,7 @@
     </resultMap>
 
     <insert id="insertNode" keyProperty="id" useGeneratedKeys="true">
-        INSERT INTO product_tree (id, p_id, name, type) VALUES (NULL, #{pId}, #{name},#{type})
+        INSERT INTO product_tree (id, p_id, name, type, edit) VALUES (NULL, #{pId}, #{name},#{type}, 0)
     </insert>
 
     <update id="updateNode">
@@ -30,7 +30,7 @@
     </delete>
 
     <select id="allNode" resultMap="PNode">
-        SELECT * FROM product_tree
+        SELECT * FROM product_tree ORDER BY type DESC ;
     </select>
 
     <select id="pNodeById" resultMap="PNode">

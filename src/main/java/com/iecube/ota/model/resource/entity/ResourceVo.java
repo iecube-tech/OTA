@@ -8,4 +8,7 @@ public class ResourceVo {
     String name;
     String filename;
     String originFilename;
+    Long size;
+    String md5;
+    String link;
 }

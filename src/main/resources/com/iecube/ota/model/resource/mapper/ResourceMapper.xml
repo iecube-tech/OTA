@@ -13,8 +13,8 @@
     </resultMap>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.iecube.ota.model.resource.entity.Resource">
-        INSERT INTO resources (id, name, filename, origin_filename, type, creator, create_time,last_modified_user,last_modified_time )
-        VALUES (NULL, #{name}, #{filename}, #{originFilename}, #{type}, #{creator}, #{createTime}, #{lastModifiedUser}, #{lastModifiedTime})
+        INSERT INTO resources (id, name, filename, origin_filename, type, size, md5, creator, create_time,last_modified_user,last_modified_time,link )
+        VALUES (NULL, #{name}, #{filename}, #{originFilename}, #{type}, #{size}, #{md5}, #{creator}, #{createTime}, #{lastModifiedUser}, #{lastModifiedTime}, #{link})
     </insert>
 
     <delete id="delete">

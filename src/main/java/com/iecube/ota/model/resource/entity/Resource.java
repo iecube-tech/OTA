@@ -11,4 +11,7 @@ public class Resource extends BaseEntity {
     String filename;
     String originFilename;
     String type;
+    Long size;
+    String md5;
+    String link;
 }

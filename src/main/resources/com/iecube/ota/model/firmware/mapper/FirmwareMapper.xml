@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iecube.ota.model.firmware.mapper.FirmwareMapper">
+    <resultMap id="Firmware" type="com.iecube.ota.model.firmware.entity.Firmware">
+        <result property="nodeId" column="node_id"></result>
+        <result property="resourceId" column="resource_id"></result>
+    </resultMap>
+    
+    <resultMap id="FirmwareVo" type="com.iecube.ota.model.firmware.vo.FirmwareVo">
+        <result property="productId" column="product_id"></result>
+        <result property="productName" column="product_name"></result>
+        <result property="originFilename" column="origin_filename"></result>
+        <result property="createTime" column="create_time"></result>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO firmware (id, node_id, resource_id, version, description, timestamp)
+        VALUES (NULL, #{nodeId}, #{resourceId}, #{version}, #{description}, #{timestamp})
+    </insert>
+
+    <select id="getProductFirmware" resultMap="FirmwareVo">
+        SELECT pt.id AS product_id, pt.name AS product_name, f.version, f.description,f.timestamp, re.filename, re.origin_filename,
+               re.type, re.size, re.md5, re.create_time, re.link
+        FROM resources re INNER JOIN firmware f ON re.id=f.resource_id
+            INNER JOIN product_tree pt ON f.node_id=pt.id
+        WHERE f.node_id=#{productId}
+        ORDER BY f.timestamp DESC;
+    </select>
+
+</mapper>

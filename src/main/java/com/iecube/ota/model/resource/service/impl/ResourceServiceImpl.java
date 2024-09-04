@@ -6,6 +6,7 @@ import com.iecube.ota.model.resource.service.ex.*;
 import com.iecube.ota.model.resource.entity.Resource;
 import com.iecube.ota.model.resource.mapper.ResourceMapper;
 import com.iecube.ota.model.resource.service.ResourceService;
+import com.iecube.ota.utils.FileMd5Util;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,9 @@ public class ResourceServiceImpl implements ResourceService {
     @Value("${resource-location}/file")
     private String files;
 
+    @Value("${domainName}")
+    private String domainName;
+
     // 上传图片的最大值
     private static final int IMAGE_MAX_SIZE=10 * 1024 * 1024;
     // 上传文件的最大值
@@ -51,12 +55,14 @@ public class ResourceServiceImpl implements ResourceService {
 
     private File target;
 
-    private Resource buildResourceDTO(String originalFilename, String fileName, String type) {
+    private Resource buildResourceDTO(String originalFilename, String fileName, String type, Long size, String md5) {
         Resource resource = new Resource();
         resource.setOriginFilename(originalFilename);
         resource.setFilename(fileName);
         resource.setName(fileName+originalFilename);
         resource.setType(type);
+        resource.setSize(size);
+        resource.setMd5(md5);
         return resource;
     }
 
@@ -73,7 +79,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
 
-    private String SaveFile(MultipartFile file, String tag) throws IOException {
+    private Resource SaveFile(MultipartFile file, String tag) throws IOException {
         String originalFilename = file.getOriginalFilename();
         String suffix = originalFilename.substring(originalFilename.lastIndexOf(".")+1);
         String fileName = UUID.randomUUID().toString().replace("-", "")+"."+suffix;
@@ -93,7 +99,13 @@ public class ResourceServiceImpl implements ResourceService {
             }
         }
         FileCopyUtils.copy(file.getBytes(), target);
-        return fileName;
+        String md5 = FileMd5Util.getMD5(target.getPath());
+        Resource resource = new Resource();
+        resource.setFilename(fileName);
+        resource.setSize(target.length());
+        resource.setMd5(md5);
+        resource.setLink(domainName+"/files/"+fileName);
+        return resource;
     }
 
     /**
@@ -137,8 +149,10 @@ public class ResourceServiceImpl implements ResourceService {
             throw new FileTypeException("不支持的文件格式");
         }
         String originalFilename = file.getOriginalFilename();
-        String filename = this.SaveFile(file, "image");
-        Resource resource = this.buildResourceDTO(originalFilename, filename, imageType);
+        Resource resource = this.SaveFile(file, "image");
+        resource.setOriginFilename(originalFilename);
+        resource.setType(imageType);
+        resource.setName(resource.getFilename()+originalFilename);
         Resource result = this.addResource(resource, creator);
 //        System.out.println(result);
         return result;
@@ -154,8 +168,10 @@ public class ResourceServiceImpl implements ResourceService {
         }
         String type = file.getContentType();
         String originalFilename = file.getOriginalFilename();
-        String fileName = this.SaveFile(file, "file");
-        Resource resource = this.buildResourceDTO(originalFilename, fileName, type);
+        Resource resource = this.SaveFile(file, "image");
+        resource.setType(type);
+        resource.setOriginFilename(originalFilename);
+        resource.setName(resource.getFilename()+originalFilename);
         Resource result = this.addResource(resource,creator);
         return result;
     }
