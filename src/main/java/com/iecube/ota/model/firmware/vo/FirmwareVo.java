@@ -19,4 +19,5 @@ public class FirmwareVo {
     String md5;
     Date createTime;
     String link;
+    String cdn;
 }

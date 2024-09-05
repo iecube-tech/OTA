@@ -17,12 +17,12 @@
     </resultMap>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO firmware (id, node_id, resource_id, version, description, timestamp)
-        VALUES (NULL, #{nodeId}, #{resourceId}, #{version}, #{description}, #{timestamp})
+        INSERT INTO firmware (id, node_id, resource_id, version, description, timestamp, cdn)
+        VALUES (NULL, #{nodeId}, #{resourceId}, #{version}, #{description}, #{timestamp}, #{cdn})
     </insert>
 
     <select id="getProductFirmware" resultMap="FirmwareVo">
-        SELECT pt.id AS product_id, pt.name AS product_name, f.version, f.description,f.timestamp, re.filename, re.origin_filename,
+        SELECT pt.id AS product_id, pt.name AS product_name, f.version, f.description,f.timestamp,f.cdn, re.filename, re.origin_filename,
                re.type, re.size, re.md5, re.create_time, re.link
         FROM resources re INNER JOIN firmware f ON re.id=f.resource_id
             INNER JOIN product_tree pt ON f.node_id=pt.id

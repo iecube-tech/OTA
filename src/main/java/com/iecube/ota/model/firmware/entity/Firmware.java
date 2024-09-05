@@ -10,4 +10,5 @@ public class Firmware {
     private String version;
     private String description;
     private long timestamp;
+    private String cdn;
 }
