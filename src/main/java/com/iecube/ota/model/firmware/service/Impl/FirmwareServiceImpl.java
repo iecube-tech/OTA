@@ -121,9 +121,15 @@ public class FirmwareServiceImpl implements FirmwareService {
         FirmwareVo lastFirmwareVo = firmwareVoList.get(0);
         Gson gson = new Gson();
         String jsonString = gson.toJson(lastFirmwareVo);
-        String topic = lastFirmwareVo.getProductId()+"/ActiveUpgrade";
-        mqttService.topicPublish(topic,jsonString);
+        String topic = "IECUBE/OTA/"+lastFirmwareVo.getProductId()+"/ActiveUpgrade";
+        mqttService.topicPublish(topic,jsonString,1, true);
         return firmwareVoList;
+    }
+
+    @Override
+    public FirmwareVo getByFirmwareId(Long firmwareId) {
+        FirmwareVo firmwareVo = firmwareMapper.getByFirmwareId(firmwareId);
+        return firmwareVo;
     }
 
     public static void unzip(String zipFilePath, String destDir) throws IOException {

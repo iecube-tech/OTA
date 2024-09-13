@@ -21,11 +21,9 @@ public class MqttServiceImpl implements MqttService {
     @Value("${domainName}")
     private String clientId;
 
-    private int QOS = 1;
-
     @Override
     @Async
-    public void topicPublish(String topic, String msg) {
+    public void topicPublish(String topic, String msg, int qos, boolean retained) {
         try{
             MqttClient mqttClient = new MqttClient(Broker, clientId, new MemoryPersistence());
             MqttConnectOptions options = new MqttConnectOptions();// 连接参数
@@ -33,11 +31,10 @@ public class MqttServiceImpl implements MqttService {
             options.setKeepAliveInterval(60);
             mqttClient.connect(options);// 连接
             MqttMessage message = new MqttMessage(msg.getBytes());// 创建消息并设置 QoS
-            message.setQos(QOS);
-            message.setRetained(true); //保留消息
+            message.setQos(qos);
+            message.setRetained(retained); //保留消息
             mqttClient.publish(topic, message); // 发布消息
-            log.info("Message published, topic: " + topic);
-            log.info("message: " + msg);
+            log.info("Message published, topic: " + topic+"; message: " + msg+"; retained: "+retained);
             mqttClient.disconnect(); // 关闭连接
             mqttClient.close();// 关闭客户端
         } catch (MqttException e) {

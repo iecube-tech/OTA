@@ -11,4 +11,6 @@ public interface FirmwareMapper {
     Integer insert(Firmware firmware);
 
     List<FirmwareVo> getProductFirmware(Long productId);
+
+    FirmwareVo getByFirmwareId(Long id);
 }

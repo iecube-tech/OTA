@@ -10,4 +10,5 @@ public interface FirmwareService {
 
     List<FirmwareVo> addFirmware(Firmware firmware);
 
+    FirmwareVo getByFirmwareId(Long firmwareId);
 }

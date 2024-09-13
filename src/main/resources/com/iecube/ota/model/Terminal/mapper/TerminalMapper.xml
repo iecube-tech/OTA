@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 属性：用于指定当前的映射文件和哪个接口进行映射， 需要指定接口的文件路径， 需要标注包的完整路径接口-->
+<mapper namespace="com.iecube.ota.model.Terminal.mapper.TerminalMapper">
+
+    <resultMap id="TerminalEntity" type="com.iecube.ota.model.Terminal.entity.TerminalEntity">
+        <result column="product_id" property="productId"></result>
+        <result column="time_stamp" property="timeStamp"></result>
+        <result column="active_disconnection" property="activeDisconnection"></result>
+    </resultMap>
+
+    <insert id="insert">
+        INSERT INTO `terminal` (`did`,`product_id`, `name`, fun,`version`, `time_stamp`,`connecting`, `active_disconnection`,`status`)
+        values (#{did},#{productId}, #{name}, #{fun},#{version}, #{timeStamp},#{connecting}, #{activeDisconnection}, #{status});
+    </insert>
+
+    <update id="updateByDid">
+        UPDATE `terminal` SET `product_id`=#{productId},
+                              `name`= #{name},
+                              `fun`= #{fun},
+                              `version`= #{version},
+                              `time_stamp`= #{timeStamp},
+                              `connecting`= #{connecting},
+                              `active_disconnection`= #{activeDisconnection},
+                              `status` = #{status}
+                          WHERE `did`=#{did}
+    </update>
+
+    <update id="updateStatusByDid">
+        UPDATE `terminal` SET `status` = #{status} WHERE `did`=#{did}
+    </update>
+
+    <select id="getByDid" resultMap="TerminalEntity">
+        SELECT * FROM `terminal` WHERE `did`=#{did}
+    </select>
+
+    <select id="getByProductId" resultMap="TerminalEntity">
+        SELECT * FROM `terminal` WHERE `product_id`=#{productId}
+    </select>
+
+</mapper>

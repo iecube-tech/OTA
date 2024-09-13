@@ -4,6 +4,7 @@ import com.iecube.ota.exception.DeleteException;
 import com.iecube.ota.exception.InsertException;
 import com.iecube.ota.exception.ServiceException;
 import com.iecube.ota.exception.UpdateException;
+import com.iecube.ota.model.Terminal.service.ex.SendMqttMessageException;
 import com.iecube.ota.model.resource.service.ex.*;
 import com.iecube.ota.utils.JsonResult;
 import com.iecube.ota.utils.ex.SystemException;
@@ -65,6 +66,8 @@ public class BaseController {
         }else if (e instanceof SizeLimitExceededException){
             result.setState(8015);
             result.setMessage("文件太大，控制单个文件小于1GB");
+        } else if (e instanceof SendMqttMessageException) {
+            result.setState(8016);
         }
         return result;
     }

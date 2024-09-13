@@ -22,7 +22,7 @@
     </insert>
 
     <select id="getProductFirmware" resultMap="FirmwareVo">
-        SELECT pt.id AS product_id, pt.name AS product_name, f.version, f.description,f.timestamp,f.cdn, re.filename, re.origin_filename,
+        SELECT pt.id AS product_id, pt.name AS product_name, f.id, f.version, f.description,f.timestamp,f.cdn, re.filename, re.origin_filename,
                re.type, re.size, re.md5, re.create_time, re.link
         FROM resources re INNER JOIN firmware f ON re.id=f.resource_id
             INNER JOIN product_tree pt ON f.node_id=pt.id
@@ -30,4 +30,11 @@
         ORDER BY f.timestamp DESC;
     </select>
 
+    <select id="getByFirmwareId" resultMap="FirmwareVo">
+        SELECT pt.id AS product_id, pt.name AS product_name, f.id, f.version, f.description,f.timestamp,f.cdn, re.filename, re.origin_filename,
+               re.type, re.size, re.md5, re.create_time, re.link
+        FROM resources re INNER JOIN firmware f ON re.id=f.resource_id
+                          INNER JOIN product_tree pt ON f.node_id=pt.id
+        WHERE f.id=#{id};
+    </select>
 </mapper>

@@ -7,6 +7,7 @@ import java.util.Date;
 
 @Data
 public class FirmwareVo {
+    Long id;
     Integer productId;
     String productName;
     String version;

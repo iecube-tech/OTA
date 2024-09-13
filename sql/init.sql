@@ -35,3 +35,16 @@ CREATE TABLE `ota`.`resources`  (
                                    PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
+CREATE TABLE `ota`.`terminal`  (
+                                   `did` varchar(255) NOT NULL,
+                                   `product_id` bigint(0) NOT NULL,
+                                   `name` varchar(255),
+                                   `fun` varchar(255),
+                                   `version` varchar(255),
+                                   `time_stamp` bigint(0),
+                                   `connecting` int(8) ZEROFILL NOT NULL,
+                                   `active_disconnection` int(8) ZEROFILL NOT NULL,
+                                   `status` int(8),
+                                   PRIMARY KEY (`did`)
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
