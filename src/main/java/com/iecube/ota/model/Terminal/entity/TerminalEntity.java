@@ -13,6 +13,7 @@ public class TerminalEntity {
      * timeStamp: 消息时间戳
      * connecting: 连接建立时发送true， 连接断开时发送 false
      * activeDisconnection： 用于遗嘱消息（false） 或者主动断开连接（true）
+     * status: 默认为true，当下发更新指令为false，设备更新被动更新功能不可用为false
      * check: 消息校验码 ==> 暂定 'sss'
      */
     String did;

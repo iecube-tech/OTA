@@ -81,7 +81,7 @@ public class FirmwareServiceImpl implements FirmwareService {
             // todo 异常处理
             e.printStackTrace();
         }
-        if(resource.getType().equals("application/x-zip-compressed")){
+        if(resource.getType().equals("application/x-zip-compressed")||resource.getType().equals("application/zip")){
             // 如果zip包 解压到cdn路径下
             try {
                 unzip(ResourceLocation+"/"+resource.getFilename(), cdnPath.toString());
