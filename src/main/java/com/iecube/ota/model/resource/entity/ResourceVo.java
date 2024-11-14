@@ -4,11 +4,11 @@ import lombok.Data;
 
 @Data
 public class ResourceVo {
-    Long id;
-    String name;
-    String filename;
-    String originFilename;
-    Long size;
-    String md5;
-    String link;
+    private Long id;
+    private String name;
+    private String filename;
+    private String originFilename;
+    private Long size;
+    private String md5;
+    private String link;
 }

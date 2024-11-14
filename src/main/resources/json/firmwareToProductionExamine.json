@@ -1,0 +1,26 @@
+{
+  "type": "template",
+  "data": {
+    "template_id": "AAqDTyqORfEtr",
+    "template_variable": {
+      "product": "",
+      "union_id": "",
+      "table_raw_array": "",
+      "result": "待审批",
+      "btn_t_disabled": false,
+      "btn_f_disabled": false,
+      "btn_agree": {
+        "value": {
+          "which": "F2P",
+          "examine_res": true
+        }
+      },
+      "btn_disagree": {
+        "value": {
+          "which": "F2P",
+          "examine_res": false
+        }
+      }
+    }
+  }
+}

@@ -1,37 +1,40 @@
 package com.iecube.ota.model.FsAuthLogin.controller;
 
 import com.iecube.ota.BaseController.BaseController;
-import com.iecube.ota.utils.FeiShu.Auth;
+import com.iecube.ota.config.AppAccessTokenConfig;
+import com.iecube.ota.model.User.dto.CurrentUserDto;
+import com.iecube.ota.utils.FeiShu.AuthUtil;
 import com.iecube.ota.utils.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
 public class FsAuthLoginController extends BaseController {
-    private Auth auth=new Auth();
+    @Value("${feiShu.appId}")
+    private String appId;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
+
+    @Autowired
+    private AppAccessTokenConfig appAccessTokenConfig;
 
     @GetMapping("/app_id")
     public JsonResult<String> getAppId(){
-        String id = auth.getAppId();
-        return new JsonResult<>(OK, id);
+        return new JsonResult<>(OK, appId);
     }
 
-    @GetMapping("/callback")
-    public JsonResult<String> getUserIno(String code){
-        System.out.println("开始调用");
-        System.out.println(auth);
-        this.auth.authorizeUserAccessToken(code);
-        String userInfo = auth.getUserInfo();
-        System.out.println("userInfo");
-        System.out.println(userInfo);
-        return new JsonResult<>(OK, userInfo);
+    @GetMapping("/login")
+    public JsonResult<CurrentUserDto> getUserIno(String code){
+        CurrentUserDto currentUserDto = AuthUtil.authorizeUserAccessToken(code, appAccessTokenConfig.getAppAccessToken());
+        CurrentUserDto result = AuthUtil.authorizeUserInfo(currentUserDto);
+        AuthUtil.cache(result, stringRedisTemplate);
+        return new JsonResult<>(OK, result);
     }
-
-
 
 }

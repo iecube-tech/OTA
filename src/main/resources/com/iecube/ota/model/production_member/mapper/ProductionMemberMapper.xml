@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iecube.ota.model.production_member.mapper.ProductionMemberMapper">
+    <resultMap id="ProductionMember" type="com.iecube.ota.model.production_member.entity.ProductionMember">
+        <result property="unionId" column="union_id"></result>
+        <result property="creatorName" column="creator_name"></result>
+        <result property="creatorUnionId" column="creator_union_id"></result>
+        <result property="creatorAvatar" column="creator_avatar"></result>
+        <result property="createTime" column="create_time"></result>
+    </resultMap>
+
+    <insert id="insertProductionMember">
+        INSERT INTO `production_members`
+            (id, union_id,name,avatar, creator_name, creator_union_id, creator_avatar, create_time)
+        VALUES
+            (NULL, #{unionId},#{name},#{avatar},#{creatorName},#{creatorUnionId},#{creatorAvatar},#{createTime})
+    </insert>
+
+    <delete id="deleteProductionMember">
+        DELETE FROM `production_members` WHERE id=#{id}
+    </delete>
+
+    <select id="findAllProductionMember" resultMap="ProductionMember">
+        SELECT id, union_id,name,avatar, creator_name, creator_union_id, creator_avatar, create_time
+        FROM `production_members` ORDER BY union_id
+    </select>
+
+    <select id="getProductionMember" resultMap="ProductionMember">
+        SELECT id, union_id,name,avatar, creator_name, creator_union_id, creator_avatar, create_time
+        FROM `production_members` WHERE union_id=#{unionId}
+    </select>
+
+</mapper>

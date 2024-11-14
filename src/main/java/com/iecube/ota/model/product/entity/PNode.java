@@ -14,5 +14,6 @@ public class PNode {
     private String name;
     private Long type;  // 0 leaf 叶子  1 node
     private Long edit; // 0 1:启用编辑
+    private Long deep;
     List<PNode> children;
 }

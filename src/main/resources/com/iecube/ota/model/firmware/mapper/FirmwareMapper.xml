@@ -6,7 +6,12 @@
 <mapper namespace="com.iecube.ota.model.firmware.mapper.FirmwareMapper">
     <resultMap id="Firmware" type="com.iecube.ota.model.firmware.entity.Firmware">
         <result property="nodeId" column="node_id"></result>
+        <result property="isFull" column="is_full"></result>
         <result property="resourceId" column="resource_id"></result>
+        <result property="examineUnionId" column="examine_union_id"></result>
+        <result property="examineStatus" column="examine_status"></result>
+        <result property="examineMessageId" column="examine_message_id"></result>
+        <result property="examineTime" column="examine_time"></result>
     </resultMap>
     
     <resultMap id="FirmwareVo" type="com.iecube.ota.model.firmware.vo.FirmwareVo">
@@ -14,16 +19,26 @@
         <result property="productName" column="product_name"></result>
         <result property="originFilename" column="origin_filename"></result>
         <result property="createTime" column="create_time"></result>
+        <result property="isFull" column="is_full"></result>
+        <result property="examineUnionId" column="examine_union_id"></result>
+        <result property="examineStatus" column="examine_status"></result>
+        <result property="examineMessageId" column="examine_message_id"></result>
+        <result property="examineTime" column="examine_time"></result>
     </resultMap>
 
     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO firmware (id, node_id, resource_id, version, description, timestamp, cdn)
-        VALUES (NULL, #{nodeId}, #{resourceId}, #{version}, #{description}, #{timestamp}, #{cdn})
+        INSERT INTO firmware
+            (id, node_id, resource_id, version, description, is_full, timestamp, cdn, creator,
+             examine_union_id, examine_status, examine_message_id, examine_time  )
+        VALUES
+            (NULL, #{nodeId}, #{resourceId}, #{version}, #{description}, #{isFull}, #{timestamp}, #{cdn}, #{creator},
+             #{examineUnionId} ,#{examineStatus} ,#{examineMessageId} ,#{examineTime})
     </insert>
 
     <select id="getProductFirmware" resultMap="FirmwareVo">
-        SELECT pt.id AS product_id, pt.name AS product_name, f.id, f.version, f.description,f.timestamp,f.cdn, re.filename, re.origin_filename,
-               re.type, re.size, re.md5, re.create_time, re.link
+        SELECT pt.id AS product_id, pt.name AS product_name, f.id, f.version, f.description,f.is_full, f.timestamp,f.cdn,
+               f.creator, f.examine_union_id, f.examine_status, f.examine_message_id, f.examine_time,
+               re.filename, re.origin_filename, re.type, re.size, re.md5, re.create_time, re.link
         FROM resources re INNER JOIN firmware f ON re.id=f.resource_id
             INNER JOIN product_tree pt ON f.node_id=pt.id
         WHERE f.node_id=#{productId}
@@ -31,10 +46,25 @@
     </select>
 
     <select id="getByFirmwareId" resultMap="FirmwareVo">
-        SELECT pt.id AS product_id, pt.name AS product_name, f.id, f.version, f.description,f.timestamp,f.cdn, re.filename, re.origin_filename,
-               re.type, re.size, re.md5, re.create_time, re.link
+        SELECT pt.id AS product_id, pt.name AS product_name, f.id, f.version, f.description, f.is_full, f.timestamp,f.cdn,
+               f.creator, f.examine_union_id, f.examine_status, f.examine_message_id, f.examine_time,
+               re.filename, re.origin_filename, re.type, re.size, re.md5, re.create_time, re.link
         FROM resources re INNER JOIN firmware f ON re.id=f.resource_id
                           INNER JOIN product_tree pt ON f.node_id=pt.id
         WHERE f.id=#{id};
+    </select>
+
+    <update id="updateFirmware">
+        UPDATE firmware SET description=#{description},
+                            examine_message_id=#{examineMessageId},
+                            examine_status=#{examineStatus},
+                            examine_time=#{examineTime}
+        WHERE id=#{id}
+    </update>
+
+    <select id="getFirmwareByExamineMessageId" resultMap="Firmware">
+        SELECT id, node_id, resource_id, version, description, is_full, `timestamp`, cdn, creator,
+            examine_union_id, examine_status, examine_message_id, examine_time
+        FROM firmware WHERE examine_message_id=#{examineMessageId}
     </select>
 </mapper>

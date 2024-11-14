@@ -66,7 +66,7 @@ public class ResourceServiceImpl implements ResourceService {
         return resource;
     }
 
-    private Resource addResource(Resource resource, Long createUser) {
+    private Resource addResource(Resource resource, String createUser) {
         resource.setCreator(createUser);
         resource.setCreateTime(new Date());
         resource.setLastModifiedUser(createUser);
@@ -131,7 +131,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Resource UploadImage(MultipartFile file, Long creator) throws IOException{
+    public Resource UploadImage(MultipartFile file, String creator) throws IOException{
 //        System.out.println(file);
         if(file==null){
             throw new FileEmptyException("文件为空");
@@ -159,7 +159,7 @@ public class ResourceServiceImpl implements ResourceService {
     }
 
     @Override
-    public Resource UploadFile(MultipartFile file, Long creator) throws IOException{
+    public Resource UploadFile(MultipartFile file, String creator) throws IOException{
         if (file.isEmpty()){
             throw new FileEmptyException("文件为空");
         }

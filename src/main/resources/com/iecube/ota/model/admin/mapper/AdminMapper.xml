@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iecube.ota.model.admin.mapper.AdminMapper">
+    <resultMap id="AdminMember" type="com.iecube.ota.model.admin.entity.AdminMember">
+        <result property="unionId" column="union_id"></result>
+        <result property="creatorName" column="creator_name"></result>
+        <result property="creatorUnionId" column="creator_union_id"></result>
+        <result property="creatorAvatar" column="creator_avatar"></result>
+        <result property="createTime" column="create_time"></result>
+    </resultMap>
+
+    <insert id="insertAdmin">
+        INSERT INTO `admin_members` (id, union_id,name,avatar, creator_name, creator_union_id, creator_avatar, create_time)
+        VALUES (NULL, #{unionId},#{name},#{avatar},#{creatorName},#{creatorUnionId},#{creatorAvatar},#{createTime})
+    </insert>
+
+    <delete id="deleteAdmin">
+        DELETE FROM `admin_members` WHERE id=#{id}
+    </delete>
+
+    <select id="allAdmin" resultMap="AdminMember">
+        SELECT id, union_id,name,avatar, creator_name, creator_union_id, creator_avatar, create_time FROM `admin_members` ORDER BY union_id
+    </select>
+
+    <select id="getAdmin" resultMap="AdminMember">
+        SELECT id, union_id,name,avatar, creator_name, creator_union_id, creator_avatar, create_time FROM `admin_members` WHERE union_id=#{unionId}
+    </select>
+</mapper>

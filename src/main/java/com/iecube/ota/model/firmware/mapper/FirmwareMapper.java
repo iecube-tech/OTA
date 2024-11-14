@@ -13,4 +13,9 @@ public interface FirmwareMapper {
     List<FirmwareVo> getProductFirmware(Long productId);
 
     FirmwareVo getByFirmwareId(Long id);
+
+    Integer updateFirmware(Firmware firmware);
+
+    Firmware getFirmwareByExamineMessageId(String examineMessageId);
+
 }

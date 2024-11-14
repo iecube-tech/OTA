@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.iecube.ota.model.production.mapper.ProductionMapper">
+    <resultMap id="Production" type="com.iecube.ota.model.production.entity.Production">
+        <result property="productId" column="product_id"></result>
+        <result property="firmwareId" column="firmware_id"></result>
+        <result property="examineId" column="examine_id"></result>
+    </resultMap>
+
+    <resultMap id="ProductionExamine" type="com.iecube.ota.model.production.entity.ProductionExamine">
+        <result property="productId" column="product_id"></result>
+        <result property="firmwareId" column="firmware_id"></result>
+        <result property="createTime" column="create_time"></result>
+        <result property="examineUnionId" column="examine_union_id"></result>
+        <result property="examineStatus" column="examine_status"></result>
+        <result property="examineMessageId" column="examine_message_id"></result>
+        <result property="examineTime" column="examine_time"></result>
+    </resultMap>
+
+    <insert id="insertProduction" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO `production` (id, product_id, firmware_id, examine_id)
+        values (NULL, #{productId}, #{firmwareId}, #{examineId})
+    </insert>
+    
+    <update id="updateProduction">
+        UPDATE `production`SET firmware_id=#{firmwareId},
+                               examine_id=#{examineId}
+                           WHERE product_id=#{productId}
+    </update>
+    
+    <select id="getProduction" resultMap="Production">
+        SELECT id, product_id, firmware_id, examine_id FROM `production` WHERE product_id=#{productId}
+    </select>
+
+    <insert id="insertProductionExamine" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO `production_examine` (id, product_id, firmware_id,creator,create_time,
+                                  examine_union_id, examine_status, examine_message_id, examine_time )
+        values (NULL, #{productId}, #{firmwareId}, #{creator},#{createTime},
+                #{examineUnionId} ,#{examineStatus} ,#{examineMessageId} ,#{examineTime})
+    </insert>
+
+    <update id="updateProductionExamine">
+        UPDATE `production_examine` SET examine_status=#{examineStatus},
+                                examine_time=#{examineTime}
+                            WHERE id=#{id}
+    </update>
+
+    <select id="getByExamineMessageId" resultMap="ProductionExamine">
+        SELECT id, product_id, firmware_id,creator,create_time,
+               examine_union_id, examine_status, examine_message_id, examine_time
+        FROM `production_examine`
+        WHERE examine_message_id=#{examineMessageId}
+    </select>
+
+    <select id="getById" resultMap="ProductionExamine">
+        SELECT id, product_id, firmware_id,creator,create_time,
+               examine_union_id, examine_status, examine_message_id, examine_time
+        FROM `production_examine`
+        WHERE id=#{Id}
+    </select>
+
+</mapper>

@@ -9,8 +9,8 @@ import java.util.Date;
 @Data
 public class BaseEntity implements Serializable {
     private String creatorType;
-    private Long creator;
+    private String creator;
     private Date createTime;
-    private Long lastModifiedUser;
+    private String lastModifiedUser;
     private Date lastModifiedTime;
 }

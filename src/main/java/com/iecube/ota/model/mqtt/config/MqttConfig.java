@@ -1,5 +1,6 @@
 package com.iecube.ota.model.mqtt.config;
 
+import com.iecube.ota.exception.ServiceException;
 import com.iecube.ota.model.Terminal.service.TerminalService;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.paho.client.mqttv3.*;
@@ -25,6 +26,7 @@ public class MqttConfig {
         MqttClient client = new MqttClient(brokerUrl, "iecube.ota.service");
         MqttConnectOptions options = new MqttConnectOptions();
         options.setCleanSession(true);
+        options.setAutomaticReconnect(true);
         client.connect(options);
         client.subscribe(topic);
         log.info("已开启监听topic："+topic);
@@ -33,6 +35,14 @@ public class MqttConfig {
             public void connectionLost(Throwable throwable) {
                 // 处理连接断开
                 log.info("连接已断开");
+                try {
+                    client.reconnect();
+                    log.info("mqtt topic={}重连",topic);
+                } catch (MqttException e) {
+                    // todo 报警
+                    log.info("mqtt的topic：{} 断连 重连失败", topic);
+                    throw new ServiceException("mqtt重连失败");
+                }
             }
 
             @Override
@@ -51,5 +61,6 @@ public class MqttConfig {
             }
         });
         return client;
+
     }
 }

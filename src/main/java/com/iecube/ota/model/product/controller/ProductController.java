@@ -8,6 +8,8 @@ import com.iecube.ota.utils.JsonResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/product")
 public class ProductController extends BaseController {
@@ -61,4 +63,12 @@ public class ProductController extends BaseController {
         PNode res = productService.getAllProduct();
         return new JsonResult<>(OK, res);
     }
+
+    @GetMapping("/parent/{id}")
+    public JsonResult<List<PNode>> getParentList(@PathVariable Long id){
+//        PNode parentList = productService.getParentTreeByNode(id);
+        List<PNode> ancestorNodes = productService.getAncestorNode(id);
+        return new JsonResult<>(OK, ancestorNodes);
+    }
+
 }

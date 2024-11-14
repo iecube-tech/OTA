@@ -15,4 +15,8 @@ public interface ProductService {
     PNode getAllProduct();
 
     PNode getTreeByNode(Long id);
+
+    PNode getParentTreeByNode(Long id);
+
+    List<PNode> getAncestorNode(Long id);
 }

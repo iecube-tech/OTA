@@ -6,9 +6,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
 public interface ResourceService {
-    Resource UploadImage(MultipartFile file, Long lastModifiedUser) throws IOException;
+    Resource UploadImage(MultipartFile file, String lastModifiedUser) throws IOException;
 
-    Resource UploadFile(MultipartFile file, Long creator) throws IOException;
+    Resource UploadFile(MultipartFile file, String creator) throws IOException;
 
     void deleteResource(String filename);
 

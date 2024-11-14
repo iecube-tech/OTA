@@ -24,7 +24,7 @@ public class FirmwareController extends BaseController {
 
     @PostMapping("/add")
     public JsonResult<List> addFirmware(@RequestBody Firmware firmware){
-        List<FirmwareVo> firmwareVoList = firmwareService.addFirmware(firmware);
+        List<FirmwareVo> firmwareVoList = firmwareService.addFirmware(firmware, currentUser());
         return new JsonResult<>(OK, firmwareVoList);
     }
 }

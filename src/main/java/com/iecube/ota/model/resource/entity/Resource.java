@@ -6,12 +6,12 @@ import lombok.Data;
 
 @Data
 public class Resource extends BaseEntity {
-    Long id;
-    String name;
-    String filename;
-    String originFilename;
-    String type;
-    Long size;
-    String md5;
-    String link;
+    private Long id;
+    private String name;
+    private String filename;
+    private String originFilename;
+    private String type;
+    private Long size;
+    private String md5;
+    private String link;
 }
