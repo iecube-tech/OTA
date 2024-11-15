@@ -52,13 +52,13 @@ public class ProductionServiceImpl implements ProductionService {
     @Autowired
     private ProductionMemberService productionMemberService;
 
-    @Value("classpath:json/firmwareToProductionExamine.json")
+    @Value("${feishu.card.template.firmwareToProductionExamineCard}")
     private File firmwareToProductionExamineJson;
 
-    @Value("classpath:json/firmwareToProductionExamineCallback.json")
+    @Value("${feishu.card.template.firmwareToProductionExamineCallbackCard}")
     private File firmwareToProductionExamineCallbackJson;
 
-    @Value("classpath:json/newProduction.json")
+    @Value("${feishu.card.template.firmwareNewProductionInformCard}")
     private File firmwareNewProductionJson;
 
     @Value("${domainFront}")

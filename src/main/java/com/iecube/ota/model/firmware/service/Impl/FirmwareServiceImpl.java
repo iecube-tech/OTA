@@ -75,10 +75,10 @@ public class FirmwareServiceImpl implements FirmwareService {
     @Value("${domainName}")
     private String DomainName;
 
-    @Value("classpath:json/publishCardTemplateContent.json")
+    @Value("${feishu.card.template.publishCard}")
     private File publishJson;
 
-    @Value("classpath:json/publishCardTemplateContentCallback.json")
+    @Value("${feishu.card.template.publishCallbackCard}")
     private File publishCallbackJson;
 
     @Override

@@ -81,7 +81,7 @@ CREATE TABLE `product_tree`  (
                                  PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
-INSERT INTO `ota`.`product_tree` (id, p_id, name, type, edit) values (NULL, 0, 'IECUBE产品', 1, 0);
+INSERT INTO `ota`.`product_tree` (id, p_id, name, type, edit, deep) values (NULL, 0, 'IECUBE产品', 1, 0, 0);
 
 -- ----------------------------
 -- Table structure for production
